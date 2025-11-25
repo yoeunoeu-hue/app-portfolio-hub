@@ -1,0 +1,73 @@
+# How to Connect Your Portfolio App to Supabase
+
+This guide will walk you through the steps to set up your Supabase backend and connect it to your Next.js portfolio application.
+
+## Step 1: Create a New Supabase Project
+
+1.  Go to the [Supabase website](https://supabase.com/) and log in to your account (or create a new one).
+2.  Once logged in, click on "New project".
+3.  Choose a name for your project, set a strong database password, select a region, and click "Create new project".
+4.  Wait for your project to be provisioned. This may take a few minutes.
+
+## Step 2: Set Up Your Database Schema
+
+Your portfolio application requires specific tables and Row Level Security (RLS) policies to function correctly. These are defined in the `supabase/schema.sql` file within your project.
+
+1.  In your Supabase project dashboard, navigate to the "SQL Editor" (usually found in the left sidebar).
+2.  Open the `portfolio-app/supabase/schema.sql` file from your local project.
+3.  Copy the entire content of `schema.sql`.
+4.  Paste the copied SQL into the editor in your Supabase dashboard.
+5.  Click "Run" or "Run query" to execute the SQL commands. This will create all the necessary tables (`profiles`, `skills`, `projects`, `achievements`, `experience`, `education`, `testimonials`, `updates`, `contact_messages`, `media`) and set up their RLS policies and storage buckets.
+
+## Step 3: Retrieve Your Supabase API Keys
+
+To connect your Next.js application to your Supabase project, you need your project's URL and API keys.
+
+1.  In your Supabase project dashboard, navigate to "Project Settings" (usually a gear icon in the left sidebar) -> "API".
+2.  You will find the following important pieces of information:
+    *   **Project URL:** This is your unique Supabase project endpoint (e.g., `https://your-project-id.supabase.co`). Copy this value.
+    *   **`anon` (public) key:** This is your client-side Supabase API key. Copy this value.
+
+## Step 4: Configure Environment Variables in Your Application
+
+You need to tell your Next.js application where to find your Supabase project.
+
+1.  In the root directory of your `portfolio-app` project, you will find a file named `.env.local.example`.
+2.  **Rename** this file to `.env.local`.
+3.  Open the newly renamed `.env.local` file in your code editor.
+4.  Paste the Project URL and `anon` public key you retrieved in the previous step:
+
+    ```
+    NEXT_PUBLIC_SUPABASE_URL=YOUR_SUPABASE_PROJECT_URL_HERE
+    NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_SUPABASE_ANON_KEY_HERE
+    ```
+    (Replace `YOUR_SUPABASE_PROJECT_URL_HERE` and `YOUR_SUPABASE_ANON_KEY_HERE` with your actual values).
+
+5.  Save the `.env.local` file.
+
+## Step 5: Run Your Application
+
+1.  Open your terminal or command prompt.
+2.  Navigate to the `portfolio-app` directory:
+    ```bash
+    cd portfolio-app
+    ```
+3.  Start the development server:
+    ```bash
+    npm run dev
+    ```
+4.  Open your web browser and go to `http://localhost:3000`. Your application should now be connected to your Supabase project!
+
+## Next Steps: Admin Panel Access
+
+1.  **Create an Admin User:**
+    *   For the admin panel to work, you need at least one user registered in your Supabase project.
+    *   In your Supabase dashboard, go to "Authentication" -> "Users".
+    *   You can "Invite a user" by providing an email and password. This user will be able to log into your admin panel.
+    *   Alternatively, you can temporarily enable user sign-ups in your Supabase Authentication settings, create a user from the app's login page (`/admin/login`), and then disable sign-ups.
+2.  **Log In:**
+    *   Navigate to `http://localhost:3000/admin/login` in your browser.
+    *   Use the credentials of the user you created in Supabase to log in.
+    *   You will then be redirected to the admin dashboard (`/admin/dashboard`) where you can start adding your portfolio content!
+
+This concludes the setup process. You can now manage your portfolio content directly from your admin panel!

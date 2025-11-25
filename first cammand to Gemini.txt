@@ -1,0 +1,188 @@
+I want you to generate a complete personal portfolio web application for me.
+Keep everything simple, clean, fast, and well-structured.
+Use Next.js + TypeScript + TailwindCSS + Supabase (auth, database, and storage).
+Make the code easy to modify.
+
+FEATURES & REQUIREMENTS
+1. Main Portfolio Sections
+
+Create the following sections in the website:
+
+Hero / Introduction
+
+My name, photo, short intro about who I am and what I do.
+
+Education
+
+List of my education history.
+
+Skills (Important)
+
+Show each skill inside its own card.
+
+Each card contains:
+
+Skill name
+
+Short strong description of what I can do with it
+
+Optional icon
+
+Make the design professional and clean.
+
+Projects
+
+Show project cards.
+
+Clicking a project opens a dynamic detail page with full information.
+
+Support images and video attachments.
+
+Achievements
+
+Same behavior as projects.
+
+Achievements should not appear if empty.
+
+Experience
+
+List my roles, responsibilities, and companies.
+
+Testimonials (What people said about me)
+
+Cards with name, photo, quote.
+
+Only show if there is data.
+
+Recent Updates / News
+
+List the new things I did recently.
+
+Newest appears first.
+
+Contact
+
+A simple contact form
+
+Email sent to my inbox + store message in Supabase.
+
+Download Resume
+
+Button to download my resume (PDF I will upload).
+
+2. Admin Panel (Very Important)
+
+Create a private admin dashboard where only I can log in using Supabase Auth.
+
+From the admin panel, I should be able to:
+
+Add, edit, delete projects
+
+Add, edit, delete achievements
+
+Add, edit, delete experience
+
+Add, edit, delete education
+
+Add, edit, delete skills
+
+Add, edit, delete testimonials
+
+Add recent updates
+
+Upload images or videos (Supabase Storage)
+
+Manage visibility automatically (sections hidden when empty)
+
+Every time I add a project, achievement, etc.:
+
+Generate a dynamic page automatically
+
+Use [slug].tsx or id-based routing.
+
+3. Database Structure (Supabase)
+
+Generate clean and minimal tables for:
+
+users
+
+skills
+
+projects
+
+achievements
+
+experience
+
+education
+
+testimonials
+
+updates
+
+contact_messages
+
+media (or store media inside each record)
+
+Also include Supabase Storage for images and videos.
+
+4. UI Design
+
+Simple, modern, fast
+
+Dark/Light mode toggle
+
+Mobile responsive
+
+Tailwind animations
+
+Smooth transitions
+
+5. Technical Requirements
+
+Next.js App Router
+
+TypeScript
+
+TailwindCSS
+
+Supabase client for CRUD
+
+Dynamic rendering for detail pages
+
+SSR where needed
+
+Client components for forms
+
+Clean folder structure
+
+Reusable components
+
+API routes for admin actions
+
+Full project ready to run with npm run dev
+
+6. Output Format
+
+Give me:
+
+Full folder structure
+
+All code files
+
+All components
+
+All API routes
+
+All Supabase table definitions
+
+Instructions to run the app
+
+Instructions to deploy on Vercel
+
+How to connect Supabase
+
+How to upload media to Supabase Storage
+
+Build the complete application using these exact requirements.
+Keep the code simple and clean so I can understand it.
