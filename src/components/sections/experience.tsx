@@ -6,51 +6,46 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
+import { createClient } from "@/lib/supabase/server";
+import { cookies } from "next/headers";
 
-const experienceData = [
-  {
-    company: "Tech Corp",
-    role: "Senior Software Engineer",
-    startDate: "2022",
-    endDate: "Present",
-    responsibilities: [
-      "Led the development of a new microservices architecture.",
-      "Mentored junior engineers and conducted code reviews.",
-      "Improved application performance by 30%.",
-    ],
-  },
-  {
-    company: "Web Solutions Inc.",
-    role: "Frontend Developer",
-    startDate: "2020",
-    endDate: "2022",
-    responsibilities: [
-      "Developed and maintained responsive user interfaces using React.",
-      "Collaborated with designers to implement new features.",
-      "Wrote and maintained unit and integration tests.",
-    ],
-  },
-];
+export async function Experience() {
+  const supabase = await createClient(cookies());
 
-export function Experience() {
+  const { data: experience } = await supabase
+    .from("experience")
+    .select("*")
+    .order("start_date", { ascending: false });
+
+  if (!experience || experience.length === 0) {
+    return (
+      <Section id="experience">
+        <h2 className="text-3xl font-bold text-center mb-8">Experience</h2>
+        <p className="text-center text-muted-foreground">No experience added yet.</p>
+      </Section>
+    );
+  }
+
   return (
     <Section id="experience">
       <h2 className="text-3xl font-bold text-center mb-8">Experience</h2>
       <div className="space-y-8">
-        {experienceData.map((exp, index) => (
-          <Card key={index}>
+        {experience.map((exp) => (
+          <Card key={exp.id}>
             <CardHeader>
               <CardTitle>{exp.role}</CardTitle>
               <CardDescription>
-                {exp.company} | {exp.startDate} - {exp.endDate}
+                {exp.company_name} | {new Date(exp.start_date).getFullYear()} - {exp.end_date ? new Date(exp.end_date).getFullYear() : 'Present'}
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <ul className="list-disc list-inside space-y-2">
-                {exp.responsibilities.map((resp, i) => (
-                  <li key={i}>{resp}</li>
-                ))}
-              </ul>
+              {exp.responsibilities && exp.responsibilities.length > 0 && (
+                <ul className="list-disc list-inside space-y-2">
+                  {exp.responsibilities.map((resp: string, i: number) => (
+                    <li key={i}>{resp}</li>
+                  ))}
+                </ul>
+              )}
             </CardContent>
           </Card>
         ))}

@@ -6,24 +6,18 @@ import {
 } from "@/components/ui/card";
 import { Section } from "@/components/ui/section";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+import { cookies } from "next/headers";
 
-const achievementsData = [
-  {
-    title: "First Place at Hackathon",
-    slug: "hackathon-winner",
-    description: "Won first place in the annual university hackathon.",
-    date: "2023-05-15",
-  },
-  {
-    title: "Published Research Paper",
-    slug: "research-paper",
-    description: "Published a paper on novel machine learning techniques.",
-    date: "2024-01-10",
-  },
-];
+export async function Achievements() {
+  const supabase = await createClient(cookies());
 
-export function Achievements() {
-  if (achievementsData.length === 0) {
+  const { data: achievements } = await supabase
+    .from("achievements")
+    .select("*")
+    .order("date", { ascending: false });
+
+  if (!achievements || achievements.length === 0) {
     return null;
   }
 
@@ -31,8 +25,8 @@ export function Achievements() {
     <Section id="achievements">
       <h2 className="text-3xl font-bold text-center mb-8">Achievements</h2>
       <div className="grid gap-6 md:grid-cols-2">
-        {achievementsData.map((achievement, index) => (
-          <Link href={`/achievements/${achievement.slug}`} key={index}>
+        {achievements.map((achievement) => (
+          <Link href={`/achievements/${achievement.slug}`} key={achievement.id}>
             <Card className="transform transition-transform duration-300 hover:scale-105">
               <CardHeader>
                 <CardTitle>{achievement.title}</CardTitle>

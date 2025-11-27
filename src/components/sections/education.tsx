@@ -6,44 +6,42 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Section } from "@/components/ui/section";
+import { createClient } from "@/lib/supabase/server";
+import { cookies } from "next/headers";
 
-const educationData = [
-  {
-    institution: "University of Example",
-    degree: "Master of Science",
-    fieldOfStudy: "Computer Science",
-    startDate: "2022",
-    endDate: "2024",
-    description: "Focused on advanced algorithms and machine learning.",
-  },
-  {
-    institution: "College of Demo",
-    degree: "Bachelor of Arts",
-    fieldOfStudy: "Web Development",
-    startDate: "2018",
-    endDate: "2022",
-    description: "Built a strong foundation in front-end and back-end technologies.",
-  },
-];
+export async function Education() {
+  const supabase = await createClient(cookies());
 
-export function Education() {
+  const { data: education } = await supabase
+    .from("education")
+    .select("*")
+    .order("end_date", { ascending: false });
+
+  if (!education || education.length === 0) {
+    return (
+      <Section id="education">
+        <h2 className="text-3xl font-bold text-center mb-8">Education</h2>
+        <p className="text-center text-muted-foreground">No education added yet.</p>
+      </Section>
+    );
+  }
+
   return (
     <Section id="education">
       <h2 className="text-3xl font-bold text-center mb-8">Education</h2>
       <div className="grid gap-6 md:grid-cols-2">
-        {educationData.map((edu, index) => (
-          <Card key={index}>
+        {education.map((edu) => (
+          <Card key={edu.id}>
             <CardHeader>
-              <CardTitle>{edu.institution}</CardTitle>
+              <CardTitle>{edu.institution_name}</CardTitle>
               <CardDescription>
-                {edu.degree} in {edu.fieldOfStudy}
+                {edu.degree} in {edu.field_of_study}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <p className="text-sm text-muted-foreground">
-                {edu.startDate} - {edu.endDate}
+                {new Date(edu.start_date).getFullYear()} - {new Date(edu.end_date).getFullYear()}
               </p>
-              <p className="mt-2">{edu.description}</p>
             </CardContent>
           </Card>
         ))}
